@@ -2,6 +2,10 @@ class Post < ActiveRecord::Base
   belongs_to :user
   has_many :post_tags
   has_many :tags, :through => :post_tags
+
+  #destroys all the comments associated with the a post, when post is deleted
+  has_many :comments, dependent: :destroy
+
   accepts_nested_attributes_for :tags, reject_if: lambda {|attributes| attributes['name'].blank?}
   validates_presence_of :name, :content
 end
